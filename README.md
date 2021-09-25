@@ -1,6 +1,6 @@
 # tailscale-hostmap
 
-Automatically map Tailscale hosts to DNS names in `/etc/hosts`.
+Automatically map Tailscale hosts to DNS names in `/etc/hosts`. No more copy-pasting Tailscale IP addresses!
 
 This script modifies your system's hosts file to include all your Tailscale machines, allowing you to e.g. ssh into them as if they were on your local network (with optional domain suffix).
 
@@ -13,6 +13,8 @@ A: Yes, but:
 - Can be enabled for just one or two machines, instead of your entire network.
 
 ## 10-second Setup
+
+Run the following two lines in a shell:
 
 ```bash
 wget https://raw.githubusercontent.com/mxbi/tailscale-hostmap/main/tailscale-hostmap.py
