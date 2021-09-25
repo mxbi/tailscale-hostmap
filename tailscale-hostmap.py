@@ -34,7 +34,10 @@ def update_hosts(peers):
   # Create a string to insert into /etc/hosts
   hosts_insert = '# tailscale-hostmap begin\n'
   for peer in peers:
-    hosts_insert += '{}\t{}\t{}\n'.format(peer['addr'], peer['host'], '# {}'.format(', '.join(peer['comments'])) if peer['comments'] else '')
+    hostname = peer['host']
+    if args.domain:
+      hostname += '.' + args.domain
+    hosts_insert += '{}\t{}\t{}\n'.format(peer['addr'], hostname, '# {}'.format(', '.join(peer['comments'])) if peer['comments'] else '')
   hosts_insert += '# tailscale-hostmap end\n'
 
   print(hosts_insert)
