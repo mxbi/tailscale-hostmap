@@ -3,6 +3,7 @@ import argparse
 import subprocess
 import re
 import os
+import datetime
 
 def parse_entries():
     output = subprocess.check_output([args.ts_binary, "status", "--json"])
@@ -33,6 +34,7 @@ def parse_entries():
 def update_hosts(peers):
   # Create a string to insert into /etc/hosts
   hosts_insert = '# tailscale-hostmap begin\n'
+  hosts_insert += '# modified {}\n'.format(datetime.datetime.now().isoformat())
   for peer in peers:
     hostname = peer['host']
     if args.domain:
