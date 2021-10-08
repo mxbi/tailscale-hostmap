@@ -20,7 +20,7 @@ Run the following two lines in a shell:
 ```bash
 # Important that the downloaded file is only writeable by root, or this could allow for privilege escalation
 sudo wget https://raw.githubusercontent.com/mxbi/tailscale-hostmap/main/tailscale-hostmap.py
-echo "*/5 * * * * /usr/bin/python3 `pwd`/tailscale-hostmap.py --domain ts -s" | sudo tee /etc/cron.d/tailscale-hostmap
+echo "*/5 * * * * root /usr/bin/python3 /home/mikel/dev/tailscale-hostmap.py --domain ts -s" | sudo tee /etc/cron.d/tailscale-hostmap
 ```
 
 The configuration above includes shared machines, and adds a `.ts` domain to hostnames. So if a host on your network is called `lynx`, you'll be able to `ssh lynx.ts`. The configuration will be updated every 5 minutes.
