@@ -11,13 +11,15 @@ A: Yes, but:
 - has some extra flexibility, as you can also add DNS entries for shared machines, and you can specify a DNS domain to use (e.g. a host `raspberrypi` can become `raspberrypi.ts`)
 - Is faster to resolve - Magic DNS is slow in my experience
 - Can be enabled for just one or two machines, instead of your entire network.
+- Doesn't take over the entire DNS resolver (so allows for arbitrary resolution for non-tailscale hostnames)
 
-## 10-second Setup
+## 10-second Setup (Linux)
 
 Run the following two lines in a shell:
 
 ```bash
-wget https://raw.githubusercontent.com/mxbi/tailscale-hostmap/main/tailscale-hostmap.py
+# Important that the downloaded file is only writeable by root, or this could allow for privilege escalation
+sudo wget https://raw.githubusercontent.com/mxbi/tailscale-hostmap/main/tailscale-hostmap.py
 echo "*/5 * * * * /usr/bin/python3 `pwd`/tailscale-hostmap.py --domain ts -s" | sudo tee /etc/cron.d/tailscale-hostmap
 ```
 
@@ -48,6 +50,11 @@ optional arguments:
   --ts-binary TS_BINARY
                         The location of the tailscale binary to call. Defaults
                         to /usr/bin/tailscale
+  --hosts-file HOSTS_FILE
+                        The location of the hosts file to update. Defaults to /etc/hosts
 ```
 
-Note that the script needs to run with sudo as `/etc/hosts` is a priveliged file. No requirements needed except Python3.
+**Important notes:**
+- The script needs to run with sudo as `/etc/hosts` is a priveliged file. No requirements needed except Python3.
+- The downloaded file must only be writeable by root. If the file is writeable by other users, this could allow for privilege escalation.
+- Any hostname with spaces in it has the spaces replaced by dashes.

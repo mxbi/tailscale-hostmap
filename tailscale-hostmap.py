@@ -51,8 +51,8 @@ def update_hosts(peers):
   new_etc_hosts = re.sub(r'# tailscale-hostmap begin.*# tailscale-hostmap end\n', '', old_etc_hosts, flags=re.S)
   new_etc_hosts += hosts_insert
 
-  open('/etc/hosts.tailscale-hostmap', 'w').write(new_etc_hosts)
-  os.rename('/etc/hosts.tailscale-hostmap', '/etc/hosts')
+  open('{}.tailscale-hostmap'.format(args.hosts_file), 'w').write(new_etc_hosts)
+  os.rename('{}.tailscale-hostmap'.format(args.hosts_file), '{}'.format(args.hosts_file))
 
 
 if __name__ == '__main__':
@@ -60,6 +60,7 @@ if __name__ == '__main__':
   parser.add_argument("--domain", default=False, help="The domain to append to the hostname. For example, `pi` becomes `pi.ts` when domain=`ts`. Defaults to no domain")
   parser.add_argument("-s", "--include-shared", default=False, action="store_true", help="Add this flag to also include shared machines in DNS")
   parser.add_argument("--ts-binary", default="/usr/bin/tailscale", help="The location of the tailscale binary to call. Defaults to /usr/bin/tailscale")
+  parser.add_argument("--hosts-file", default="/etc/hosts", help="The location of the hosts file to update. Defaults to /etc/hosts")
   args = parser.parse_args()
 
   peers = parse_entries()
