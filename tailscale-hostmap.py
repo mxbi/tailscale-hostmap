@@ -37,6 +37,11 @@ def update_hosts(peers):
   hosts_insert += '# modified {}\n'.format(datetime.datetime.now().isoformat())
   for peer in peers:
     hostname = peer['host']
+    
+    # This isn't a real device, don't create DNS entries
+    if hostname == 'device-of-shared-to-user':
+      continue
+    
     if args.domain:
       hostname += '.' + args.domain
     hosts_insert += '{}\t{}\t{}\n'.format(peer['addr'], hostname, '# {}'.format(', '.join(peer['comments'])) if peer['comments'] else '')
