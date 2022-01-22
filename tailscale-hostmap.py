@@ -27,7 +27,7 @@ def parse_entries():
         if peer_uid != self_uid:
           comments.append('shared')
 
-        peer_addr = peer['TailAddr']
+        peer_addr = peer['TailscaleIPs'][0]
         # print(peer_hostname, peer_addr)
         peers.append({'host': peer_hostname, 'addr': peer_addr, 'comments': comments})
 
