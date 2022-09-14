@@ -38,23 +38,23 @@ You can use [a crontab generator](https://crontab-generator.org/) to help with t
 There are some optional flags:
 
 ```
-usage: tailscale-hostmap.py [-h] [--domain DOMAIN] [-s]
-                            [--ts-binary TS_BINARY]
+usage: tailscale-hostmap.py [-h] [--domain DOMAIN] [-s] [--ts-binary TS_BINARY] [-ip4] [-ip6]
+                            [--hosts-file HOSTS_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --domain DOMAIN       The domain to append to the hostname. For example,
-                        `pi` becomes `pi.ts` when domain=`ts`. Defaults to no
-                        domain
+  --domain DOMAIN       The domain to append to the hostname. For example, `pi` becomes `pi.ts` when
+                        domain=`ts`. Defaults to no domain
   -s, --include-shared  Add this flag to also include shared machines in DNS
   --ts-binary TS_BINARY
-                        The location of the tailscale binary to call. Defaults
-                        to /usr/bin/tailscale
+                        The location of the tailscale binary to call. Defaults to /usr/bin/tailscale
+  -ip4, --ip4           Add this flag to limit processing to ip4 addresses
+  -ip6, --ip6           Add this flag to limit processing to ip6 addresses
   --hosts-file HOSTS_FILE
                         The location of the hosts file to update. Defaults to /etc/hosts
 ```
 
 **Important notes:**
-- The script needs to run with sudo as `/etc/hosts` is a priveliged file. No requirements needed except Python3.
+- The script needs to run with sudo as `/etc/hosts` is a privileged file. No requirements needed except Python3.7.
 - The downloaded file must only be writeable by root. If the file is writeable by other users, this could allow for privilege escalation.
 - Any hostname with spaces in it has the spaces replaced by dashes.
