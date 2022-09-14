@@ -29,8 +29,10 @@ def is_valid_host(hostname: str) -> bool:
 
 def is_valid_addr(addr: str) -> bool:
     """Check address is valid."""
-    return args.ip4 if is_ip4(addr) else args.ip6
-
+    if args.ip4 or args.ip6:
+        return args.ip4 if is_ip4(addr) else args.ip6
+    else:
+        return True
 
 @dataclass
 class PeerInfo:
@@ -105,9 +107,10 @@ def tailscale_peers() -> typing.List[PeerInfo]:
 def format_hosts_lines(peers: typing.List[PeerInfo]) -> typing.List[str]:
     """Format peers into lines for /etc/hosts."""
     # line-up columns
-    maxaddr = max(len(peer.addr) for peer in valid_peers(peers))
-    maxhost = max(len(peer.hostname()) for peer in valid_peers(peers))
-    fmt_str = f"{{:<{maxaddr}}}\t{{:<{maxhost}}}\t{{}}"
+    if len(valid_peers(peers)):
+        maxaddr = max(len(peer.addr) for peer in valid_peers(peers))
+        maxhost = max(len(peer.hostname()) for peer in valid_peers(peers))
+        fmt_str = f"{{:<{maxaddr}}}\t{{:<{maxhost}}}\t{{}}"
 
     return (
         [
