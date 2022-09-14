@@ -102,7 +102,6 @@ def tailscale_peers() -> typing.List[PeerInfo]:
 
     return peers
 
-
 def format_hosts_lines(peers: typing.List[PeerInfo]) -> typing.List[str]:
     """Format peers into lines for /etc/hosts."""
     # line-up columns
