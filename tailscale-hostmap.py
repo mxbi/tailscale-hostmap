@@ -107,10 +107,12 @@ def tailscale_peers() -> typing.List[PeerInfo]:
 def format_hosts_lines(peers: typing.List[PeerInfo]) -> typing.List[str]:
     """Format peers into lines for /etc/hosts."""
     # line-up columns
-    if len(valid_peers(peers)):
-        maxaddr = max(len(peer.addr) for peer in valid_peers(peers))
-        maxhost = max(len(peer.hostname()) for peer in valid_peers(peers))
-        fmt_str = f"{{:<{maxaddr}}}\t{{:<{maxhost}}}\t{{}}"
+    if len(list(valid_peers(peers))) == 0:
+        raise Exception("No valid peers found.")
+
+    maxaddr = max(len(peer.addr) for peer in valid_peers(peers))
+    maxhost = max(len(peer.hostname()) for peer in valid_peers(peers))
+    fmt_str = f"{{:<{maxaddr}}}\t{{:<{maxhost}}}\t{{}}"
 
     return (
         [
